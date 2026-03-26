@@ -1,9 +1,17 @@
+import { fetchProfileAction } from "@/actions";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+export default async function Home() {
 
-export default function Home() {
-  return (
-    <div>
-      Home Page
-    </div>
+  const user = await currentUser();
+  // console.log(user);
+  const ProfileInfo = await fetchProfileAction(user?.id);
 
+  if(user && !ProfileInfo?._id) redirect('/onboard');
+
+      return (
+    <section>
+      Main Content
+    </section>
   );
 }
