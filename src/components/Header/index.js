@@ -32,7 +32,7 @@ function Header({profileInfo, user}) {
         {
             label: 'Activity',
             path: '/activity',
-            show: profileInfo.role === 'candidate',
+            show: profileInfo?.role === 'candidate',
         },
         {
             label: 'Membership',

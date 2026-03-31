@@ -10,8 +10,7 @@ export default async function CommonLayout({children}){
      return (
         <div className=" p-6 lg:px-8">
             {/* Header Component */}
-            <Header profileInfo={profileInfo} user={JSON.parse(JSON.stringify(user))} />
-
+         <Header profileInfo={profileInfo} user={user ? JSON.parse(JSON.stringify(user)) : null} />
             {/* Main component */}
             <main>{children}</main>
         </div>

@@ -1,8 +1,12 @@
 "use client"
-
+import RecruiterJobCard from "../recruiter-job-card";
 import PostNewJob from "../post-new-job";
+import CandidateJobCard from "../candidate-job-card";
 
-function JobListing({user, profileInfo}){
+function JobListing({user, profileInfo, jobList, jobApplications }){
+   console.log("jobApplications", jobApplications);
+  // console.log("JobList", JobList);
+
     return <div>
         <div className="mx-auto max-w-7xl">
            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
@@ -17,12 +21,36 @@ function JobListing({user, profileInfo}){
                 {
                     profileInfo?.role === 'candidate' ? 
                     <p>Filter</p>
-                    : <PostNewJob profileInfo={profileInfo}/>
+                    : <PostNewJob user={user} profileInfo={profileInfo}/>
                 }
               </div>
            </div>
-           <div>
-            JOB LISTING
+           <div className="pt-6 pb-24">
+             <div className="grid, grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
+               <div className="lg:col-span-4">
+                  <div className="container mx-auto p-0 space-y-8">
+                    <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
+                       {
+                        jobList && jobList.length>0 ?
+                        jobList.map((jobItem, indx) =>
+                           profileInfo?.role === "candidate" ?
+                           <CandidateJobCard key={indx}
+                           profileInfo={profileInfo}
+                           jobItem={jobItem}
+                           jobApplications={jobApplications}
+                            />
+                          : <RecruiterJobCard key={indx}
+                          profileInfo={profileInfo}
+                          jobItem={jobItem}
+                          jobApplications={jobApplications}
+                          />
+                        )
+                        : null
+                       }
+                    </div>
+                  </div>
+               </div>
+             </div>
            </div>
         </div>
     </div>
