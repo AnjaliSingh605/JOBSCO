@@ -2,8 +2,14 @@
 
 import { Fragment } from "react"
 import { Button } from "../ui/button"
-import { DialogContent, Dialog, DialogTitle, DialogFooter } from "../ui/dialog"
-import { getCandidateDetailsById } from "@/actions"
+import { DialogContent, Dialog, DialogTitle} from "../ui/dialog"
+import { getCandidateDetailsById, updateJobApplicationAction } from "@/actions"
+import { createClient } from "@supabase/supabase-js"
+
+const supabaseClient = createClient('https://vihwmbexuhnjddlbibxl.supabase.co',
+     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpaHdtYmV4dWhuamRkbGJpYnhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MTU1NDAsImV4cCI6MjA5MDE5MTU0MH0.8JkHrAFg3Q89aqKHVbHC-twuhvxIRIdtlKg23_BIOgk');
+
+
 
 export default function CandidateList({ currCandidateDetails,
     setCurrCandidateDetails,
@@ -18,6 +24,31 @@ export default function CandidateList({ currCandidateDetails,
             setCurrCandidateDetails(data);
             setShowCurrCandidateDetailsModel(true);
         }
+    }
+
+    function handlepreviewResume(){
+        const {data} = supabaseClient.storage.from('job-board-public').getPublicUrl(currCandidateDetails?.candidateInfo?.resume);
+        const a = document.createElement('a');
+        a.href = data?.publicUrl;
+        a.setAttribute('download', 'Resume.pdf');
+        a.setAttribute('target', '_blank');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    async function handleUpdateJobStatus(curStatus){
+      let copyJobApplicants = [...jobApplications];
+      const indexOfCurrentJobApplicant = copyJobApplicants.findIndex(item => item.candidateUserId === currCandidateDetails?.userId);
+      const jobApplicantToUpdate = {
+        ...copyJobApplicants[indexOfCurrentJobApplicant],
+        status : copyJobApplicants[indexOfCurrentJobApplicant].status.concat(curStatus)
+      }
+
+      console.log(jobApplicantToUpdate, 'jobAplUp')
+
+      await updateJobApplicationAction(jobApplicantToUpdate, '/jobs');
+
     }
 
     console.log(currCandidateDetails);
@@ -59,14 +90,14 @@ export default function CandidateList({ currCandidateDetails,
                         <p>
                             Notice Period : {currCandidateDetails?.candidateInfo?.noticePeriod} Days
                         </p>
-                        <div className="flex gap-4 mt-6">
+                        <div className="flex flex-wrap items-center gap-4 mt-6">
                             {
                                 currCandidateDetails?.candidateInfo?.skills?.split(',').map((skill, i) => (
                                     <div key={i} className="w-[100px] flex justify-center items-center h-[35px]  bg-black rounded-4"><h2 className="text-[13px] font-medium text-white" >{skill}</h2></div>
                                 ))
                             }
                         </div>
-                        <div className="flex items-center gap-4 mt-6">
+                        <div className="flex flex-wrap items-center gap-4 mt-6">
                             <h1>Previous Companies: </h1>
                             {
                                 currCandidateDetails?.candidateInfo?.previousCompanies?.split(',').map((skill, i) => (
@@ -76,9 +107,35 @@ export default function CandidateList({ currCandidateDetails,
                         </div>
                     </div>
                     <div className="flex  gap-3">
-                        <Button  className="flex h-11 items-center justify-center px-5">Resume</Button>
-                        <Button  className="flex h-11 items-center justify-center px-5">Select</Button>
-                        <Button  className="flex h-11 items-center justify-center px-5">Reject</Button>
+                        <Button onClick={handlepreviewResume}  className=" disabled:opacity-65 flex h-11 items-center justify-center px-5">Resume</Button>
+                        <Button onClick={()=>handleUpdateJobStatus('selected')}
+                                className="flex h-11 items-center justify-center px-5"
+                                disabled={
+                                   jobApplications.find(item => item.candidateUserId === currCandidateDetails?.userId)
+                                   ?.status.includes("selected") || jobApplications.find(item => item.candidateUserId === currCandidateDetails?.userId)
+                                   ?.status.includes("rejected") ?
+                                    true : 
+                                    false   
+                                }
+                                >
+                                {
+                                   jobApplications.find(item => item.candidateUserId === currCandidateDetails?.userId)?.status.includes("selected") ? "Selected" : "Select"   
+                                }
+                                </Button>
+                               <Button onClick={()=>handleUpdateJobStatus('rejected')}  
+                                className="disabled:opacity-65 flex h-11 items-center justify-center px-5"
+                                     disabled={
+                                   jobApplications.find(item => item.candidateUserId === currCandidateDetails?.userId)
+                                   ?.status.includes("selected") || jobApplications.find(item => item.candidateUserId === currCandidateDetails?.userId)
+                                   ?.status.includes("rejected") ?
+                                    true : 
+                                    false   
+                                }
+                                >
+                                {
+                                   jobApplications.find(item => item.candidateUserId === currCandidateDetails?.userId)?.status.includes("rejected") ? "Rejected" : "Reject"   
+                                }
+                                </Button>
                     </div>
 
                 </DialogContent> 
