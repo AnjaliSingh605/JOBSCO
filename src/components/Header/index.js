@@ -68,6 +68,7 @@ function Header({profileInfo, user}) {
                                     menuItem.show 
                                     ? <Link key={id}
                                        href={menuItem.path} 
+                                       onClick={()=> sessionStorage.removeItem('filterParams')}
                                        className="flex w-full item-center py-2 text-lg font-semibold">
                                     {menuItem.label}
                                     </Link> 
@@ -86,6 +87,7 @@ function Header({profileInfo, user}) {
                         menuItems.map((item, id) => 
                             item.show?
                         <Link key={id} href={item.path}
+                             onClick={()=> sessionStorage.removeItem('filterParams')}
                               className="group inline-flex h-9 w-max items-center rounded-md bg-white px-4 py-2 text-sm font-medium">
                            {item.label}
                         </Link>
