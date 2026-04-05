@@ -59,10 +59,13 @@ const OnBoard = () => {
         recruiterFormData.companyRole.trim() !== ""
     };
 
-    function handleCandidateFormValid(){
-        console.log("data", candidateFormData);
-       return Object.keys(candidateFormData).every(key => candidateFormData[key].trim() !== "");
-    }
+    function handleCandidateFormValid() {
+    return Object.keys(candidateFormData).every(key => {
+        const value = candidateFormData[key];
+        if (typeof value === "string") return value.trim() !== "";
+        return value !== null && value !== undefined && value !== "";
+    });
+}
 
     async function createProfile(){
 

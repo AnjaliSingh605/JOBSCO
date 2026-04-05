@@ -3,6 +3,7 @@
 import { candidateOnBoardFormControls, initialCandidateAccountFormData, initialRecruiterFormData, recruiterOnboardFormControls } from "@/utils"
 import { useState, useEffect } from "react";
 import CommonForm from "../common-form";
+import { UpdateProfileInfoAction } from "@/actions";
 
 export default function AccountInfo({ProfileInfo}){
 
@@ -11,6 +12,36 @@ export default function AccountInfo({ProfileInfo}){
 
 
     console.log("Prof", ProfileInfo);
+
+    async function handleUpdateAccount(){
+        await UpdateProfileInfoAction(ProfileInfo?.role === 'candidate' ? {
+            _id : ProfileInfo?._id,
+            userId : ProfileInfo?.userId, 
+            role : ProfileInfo?.role,
+            email : ProfileInfo?.email, 
+            isPremiumUser : ProfileInfo?.isPremiumUser, 
+            memberShipType : ProfileInfo?.memberShipType, 
+            memberShipStartDate : ProfileInfo?.memberShipStartDate, 
+            memberShipEndDate : ProfileInfo?.memberShipEndDate, 
+            candidateInfo :{
+                ...candidateFormData,
+                resume : ProfileInfo?.candidateInfo?.resume
+            } , 
+        } : {
+              _id : ProfileInfo?._id,
+             userId : ProfileInfo?.userId, 
+            role : ProfileInfo?.role,
+            email : ProfileInfo?.email, 
+            isPremiumUser : ProfileInfo?.isPremiumUser, 
+            memberShipType : ProfileInfo?.memberShipType, 
+            memberShipStartDate : ProfileInfo?.memberShipStartDate, 
+            memberShipEndDate : ProfileInfo?.memberShipEndDate, 
+            recruiterInfo :{
+                ...recruiterFormData,
+            } , 
+        }
+        , '/account')
+    }
 
     useEffect(() => {
     if (ProfileInfo?.role === 'recruiter' && ProfileInfo?.recruiterInfo)
@@ -47,7 +78,7 @@ export default function AccountInfo({ProfileInfo}){
                        setRecruiterFormData
                      }
                      buttonText = 'Update Profile'
-
+                     action={handleUpdateAccount}
                     />
                 </div>
             </div>

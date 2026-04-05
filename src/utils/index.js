@@ -52,8 +52,8 @@ export const candidateOnBoardFormControls = [
     componentType : "input",
   },
   {
-    label : "Prefered Job Location",
-    name : "preferedJobLocation",
+    label : "Preferred Job Location",
+    name : "preferredJobLocation",
     placeholder : "Enter your prefered job location",
     componentType : "input",
   },
@@ -124,7 +124,7 @@ export const initialCandidateFormData = {
   name : "",
   currentCompany :"",
   currentJobLocation : "",
-  preferedJobLocation : "",
+  preferredJobLocation : "",
   currentSalary : "",
   noticePeriod : "",
   skills : "",
@@ -248,3 +248,30 @@ export function FormUrlQuery({params, dataToAdd}){
       }
     )
 }
+
+export const chips = [
+    { label: "Design",      bg: "#E6F1FB", color: "#185FA5" },
+    { label: "Engineering", bg: "#E1F5EE", color: "#0F6E56" },
+    { label: "Finance",     bg: "#FAEEDA", color: "#854F0B" },
+    { label: "Marketing",   bg: "#FAECE7", color: "#993C1D" },
+    { label: "Product",     bg: "#EEEDFE", color: "#534AB7" },
+    { label: "HR",          bg: "#FBEAF0", color: "#993556" },
+  ]
+
+export const memberShipPlans = [
+  {
+    heading : 'Tier-1',
+    price : 100,
+    type : 'basic'
+  },
+  {
+    heading : 'Tier-2',
+    price : 1000,
+    type : 'teams'
+  },
+  {
+    heading : 'Tier-3',
+    price : 5000,
+    type : 'enterprise'
+  },
+]
