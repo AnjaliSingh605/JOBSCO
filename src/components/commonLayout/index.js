@@ -12,7 +12,7 @@ export default async function CommonLayout({children}){
             {/* Header Component */}
          <Header profileInfo={profileInfo} user={user ? JSON.parse(JSON.stringify(user)) : null} />
             {/* Main component */}
-            <main>{children}</main>
+            <main >{children}</main>
         </div>
      )
 }

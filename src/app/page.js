@@ -1,6 +1,8 @@
 import { fetchProfileAction } from "@/actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import MainPage from "@/components/main";
+
 export default async function Home() {
 
   const user = await currentUser();
@@ -11,7 +13,7 @@ export default async function Home() {
 
       return (
     <section>
-      Main Content
+        <MainPage ProfileInfo={ProfileInfo} user={JSON.parse(JSON.stringify(user))}/>
     </section>
   );
 }
