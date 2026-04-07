@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import Header from "../Header"
 import { fetchProfileAction } from "@/actions";
+import Footer from "../Footer";
 
 export default async function CommonLayout({children}){
     
@@ -8,11 +9,13 @@ export default async function CommonLayout({children}){
     const profileInfo = await fetchProfileAction(user?.id);
 
      return (
-        <div className=" p-6 lg:px-8">
+        <div className="">
             {/* Header Component */}
          <Header profileInfo={profileInfo} user={user ? JSON.parse(JSON.stringify(user)) : null} />
             {/* Main component */}
             <main >{children}</main>
+            {/* Footer */}
+            <Footer profileInfo={profileInfo} user={user ? JSON.parse(JSON.stringify(user)) : null}/>
         </div>
      )
 }
