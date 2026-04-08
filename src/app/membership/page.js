@@ -1,5 +1,5 @@
 import { fetchProfileAction } from "@/actions";
-import memberShip from "@/components/membership-page"
+import MemberShip from "@/components/membership-page"
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -8,5 +8,5 @@ export default async function memberShipPage(){
     const ProfileInfo = await fetchProfileAction(user?.id)
     if(!ProfileInfo) redirect('/onboard');
 
-    return <memberShip ProfileInfo={ProfileInfo}/>
+    return <MemberShip ProfileInfo={ProfileInfo}/>
 }

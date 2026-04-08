@@ -129,3 +129,5 @@ export async function UpdateProfileInfoAction(data, pathToRevalidate) {
 
     revalidatePath(pathToRevalidate);
 }
+
+// create stripe price id based on tier

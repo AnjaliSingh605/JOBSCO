@@ -260,18 +260,21 @@ export const chips = [
 
 export const memberShipPlans = [
   {
-    heading : 'Tier-1',
-    price : 100,
-    type : 'basic'
+    heading: "Tier-1",
+    price: 100,
+    type: "basic",
+    features: ["1 user seat", "Core features", "Email support"],
   },
   {
-    heading : 'Tier-2',
-    price : 1000,
-    type : 'teams'
+    heading: "Tier-2",
+    price: 1000,
+    type: "teams",
+    features: ["Up to 10 seats", "All basic features", "Priority support", "Team analytics"],
   },
   {
-    heading : 'Tier-3',
-    price : 5000,
-    type : 'enterprise'
+    heading: "Tier-3",
+    price: 5000,
+    type: "enterprise",
+    features: ["Unlimited seats", "All teams features", "Dedicated manager", "Custom SLA"],
   },
 ]
